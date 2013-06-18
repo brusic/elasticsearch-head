@@ -357,8 +357,17 @@ SPAN.jsonPretty-boolean { color: purple; }
 	cursor: pointer;
 }
 
-.shown .sidebarSection-head {
+/*
+ * Using the child selector so only the most immediate child
+ * is selected for this. Sub-childs should remain un-shown,
+ * as they occur in the case of multi_field properties.
+ */
+.shown > .sidebarSection-head {
 	background-position: 2px -13px;
+}
+
+.subMultiFields {
+	padding-left: 10px;
 }
 
 .sidebarSection-body {
@@ -421,11 +430,13 @@ SPAN.jsonPretty-boolean { color: purple; }
 	cursor: pointer;
 	float: left;
 	height: 40px;
-	width: 30px;
+	width: 31px;
 	margin: 4px;
 	border: 2px solid #444;
 	font-size: 32px;
 	text-align: center;
+	letter-spacing: -5px;
+	text-indent: -7px;
 }
 .clusterOverview-replica.primary {
 	border-width: 4px;
