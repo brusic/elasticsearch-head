@@ -2907,6 +2907,32 @@
 				alert(JSON.stringify(r, true, "  "));
 			});
 		},
+		_replica_handler: function(index) {
+			var fields = new app.ux.FieldCollection({
+				fields: [
+					new ui.TextField({ label: i18n.text("ReplicasForm.ChangeReplicaMessage"), name: "replicas", require: true })
+				]
+			});
+			var dialog = new ui.DialogPanel({
+				title: i18n.text("AliasForm.ReplicasForIndexName", index.name),
+				body: new ui.PanelForm({ fields: fields }),
+				onCommit: function(panel, args) {
+					if(fields.validate()) {
+						var data = fields.getData();
+						var command = {
+                            "index" : {
+                                "number_of_replicas" : data["replicas"]
+                            }
+                        };
+						this.config.cluster.put(index.name + '/_settings', JSON.stringify(command), function(d) {
+							dialog.close();
+							alert(JSON.stringify(d));
+							this.fire("redraw");
+						}.bind(this) );
+					}
+				}.bind(this)
+			}).open();
+		},			
 		_deleteIndexAction_handler: function(index) {
 			if( prompt( i18n.text("AliasForm.DeleteAliasMessage", i18n.text("Command.DELETE"), index.name ) ) === i18n.text("Command.DELETE") ) {
 				this.cluster["delete"](index.name, null, function(r) {
@@ -3035,7 +3061,8 @@
 							{ text: i18n.text("IndexActionsMenu.Snapshot"), disabled: closed, onclick: function() { this._postIndexAction_handler("_gateway/snapshot", index, false); }.bind(this) },
 							{ text: i18n.text("IndexActionsMenu.Analyser"), onclick: function() { this._testAnalyser_handler(index); }.bind(this) },
 							{ text: (index.state === "close") ? i18n.text("IndexActionsMenu.Open") : i18n.text("IndexActionsMenu.Close"), onclick: function() { this._postIndexAction_handler((index.state === "close") ? "_open" : "_close", index, true); }.bind(this) },
-							{ text: i18n.text("IndexActionsMenu.Delete"), onclick: function() { this._deleteIndexAction_handler(index); }.bind(this) }
+							{ text: i18n.text("IndexActionsMenu.Delete"), onclick: function() { this._deleteIndexAction_handler(index); }.bind(this) },
+							{ text: i18n.text("IndexActionsMenu.Replicas"), onclick: function() { this._replica_handler(index); }.bind(this) }
 						]
 					})
 				})

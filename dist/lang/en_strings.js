@@ -46,6 +46,7 @@ i18n.setKeys({
 	"IndexActionsMenu.Open": "Open",
 	"IndexActionsMenu.Close": "Close",
 	"IndexActionsMenu.Delete": "Delete...",
+	"IndexActionsMenu.Replicas": "Change Replicas...",	
 	"IndexInfoMenu.Title": "Info",
 	"IndexInfoMenu.Status": "Index Status",
 	"IndexInfoMenu.Metadata": "Index Metadata",
@@ -99,6 +100,7 @@ i18n.setKeys({
 	"QueryFilter.DateRangeHint.from": "From : {0}",
 	"QueryFilter.DateRangeHint.to": "  To : {0}",
 	"Query.FailAndUndo": "Query Failed. Undoing last changes",
+	"ReplicasForm.ChangeReplicaMessage": "Number of replicas",
 	"StructuredQuery.ShowRawJson": "Show Raw JSON"
 });
 
